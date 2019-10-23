@@ -25,6 +25,10 @@ Alternatively, you could use Conda to download PHOSforUS and its dependencies. I
 
     conda install -c mcho22 phosforus 
 
+After you install the package, find for the directory where the PHOSforUS source codes are in, copy recipe folder and paste it wherever you want. Now you are ready to use PHOSforUS.
+
+    <Conda directory>/pkgs/phosforus-1.0.1-py27_3/info/recipe
+
 [3] Sample commands
 
     Option #1: python phosforus.py
