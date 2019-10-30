@@ -46,8 +46,8 @@ If "-m" argument is given, PHOSforUS takes manually typed sequence argument as i
 
 ## 4. Optional arguments
 
-"-m": manual sequence input option. Should be followed by sequence input.
-"-v": verbose option. All site-wise prediction results will be printed in command interface.
+- `-m`: manual sequence input option. Should be followed by sequence input.
+- `-v`: verbose option. All site-wise prediction results will be printed in command interface.
 
 ## 5. Result file format
 
