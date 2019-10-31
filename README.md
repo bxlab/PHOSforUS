@@ -21,33 +21,39 @@ Along with base packages, it requires installation of numpy and scikit-learn pac
 - numpy: 1.16.5
 - scikit-learn: 0.20.3
 
+After you fetched github repository, you can install PHOSforUS with setup.py:
+
+    python setup.py install
+
 Alternatively, you could use Conda to download PHOSforUS and its dependencies. It could be installed with conda run:
 
     conda install -c mcho22 phosforus 
 
-After you install the package, find for the directory where the PHOSforUS source codes are in, copy recipe folder and paste it wherever you want. Now you are ready to use PHOSforUS.
+After you install the package, you could test the installation with this test script:
 
-    <Conda directory>/pkgs/phosforus-1.0.1-py27_3/info/recipe
+    from phosforus import phosforus
+    phosforus.phosforus("ACDEFGHIKLMNPQRSTVWY", file_input = False, manual_input = True, verbose = True)
 
-## 3. Sample commands
+## 3. Usage samples
 
-### Option #1: python phosforus.py
+## (don't forget to import: from phosforus import phosforus)
 
-If no other arguments are given, PHOSforUS automatically identifies sequence files in input_seq folder.
-Sequence files should follow fasta format for smooth analysis.
+### Option #1: phosforus.phosforus([filename])
 
-### Option #2: python phosforus.py [filename]
+If no other arguments other than input file name is given, PHOSforUS automatically targets for that file and predicts phosphorylation site. After prediction is completed, result file is generated in 'result_output/' folder. 
+Sequence files should follow fasta format for smooth analysis. If multiple sequences are placed in a single file, PHOSforUS will predict phosphorylation sites in each of sequences but separate result files will be produced for each.
 
-If file name is explicitly given, PHOSforUS runs for that specific file only.
+### Option #2: phosforus.phosforus([dirname], file_input = False, directory_input = True)
 
-### Option #3: python phosforus.py -m [sequence]
+If directory input option is turned on, PHOSforUS will take all files in the given directory as sequence inputs. Beware not to include non-sequence files in the directory.
 
-If "-m" argument is given, PHOSforUS takes manually typed sequence argument as its input.
+### Option #3: phosforus.phosforus(["manual sequence input"], file_input = False, manual_input = True)
+
+If manual input option is turned on, PHOSforUS will take given sequence argument as a sequence input and proceed on prediction. It will not distinguish upper case and lower case letters. Letters other than 20 canonical amino acid codes would be recognized as random (X) amino acid.
 
 ## 4. Optional arguments
 
-- `-m`: manual sequence input option. Should be followed by sequence input.
-- `-v`: verbose option. All site-wise prediction results will be printed in command interface.
+- verbose (default = False): if True, it will print prediction results on command line.
 
 ## 5. Result file format
 
