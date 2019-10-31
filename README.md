@@ -29,6 +29,10 @@ Alternatively, you could use Conda to download PHOSforUS and its dependencies. I
 
     conda install -c mcho22 phosforus 
 
+Another option you could use is pip. It could be installed with pip as follow:
+
+    pip install PHOSforUS
+
 After you install the package, you could test the installation with this test script:
 
     from phosforus import phosforus
