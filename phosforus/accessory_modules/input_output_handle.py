@@ -10,79 +10,83 @@ import sys
 
 #### Module functions
 
-def input_fileset(if_command):
-	if_len = len(if_command)
-	if_seqs = []
-	if if_len > 1 and if_command[1] == "-m":
-		if if_len == 3:
-			if_sub = [">Manual_seq_input", if_command[2].upper()]
-			if_seqs.append(if_sub)
-			return if_seqs
-		else:
-			print "#### ERROR: Manual sequence input failed"
-			print "#### Please follow 'phosforus.py -m SEQ' command format"
+def input_fileset(if_input, if_file, if_direc, if_manual):
+    if_seqs = []
+    if if_file == True:
+        if_fname = if_input
+        with open(if_fname) as seq_file:
+			for line in seq_file:
+				sst = line.rstrip('\n')
+				if sst[0] == ">":
+					if_seqs.append([sst, ""])
+				else:
+					if_seqs[-1][1] += sst
+        if len(if_seqs) == 0:
+			print "#### ERROR: No valid input was found in input directory"
+			print "Please check input files"
 			sys.exit()
 			return -1
-	else:
-		if if_len == 1:
-			if_fnames = os.listdir("input_seq")
-			if len(if_fnames) == 0:
-				print "#### ERROR: No sequence file was found in input directory"
-				sys.exit()
-				return -1
-			else:
-				for if_1 in range(len(if_fnames)):
-					with open("input_seq/"+if_fnames[if_1]) as seq_file:
-						for line in seq_file:
-							sst = line.rstrip('\n')
-							if sst[0] == ">":
-								if_seqs.append([sst, ""])
-							else:
-								if_seqs[-1][1] += sst
-				if len(if_seqs) == 0:
-					print "#### ERROR: No valid input was found in input directory"
-					print "Please check input files"
-					sys.exit()
-					return -1
-				else:
-					return if_seqs
-		elif if_len == 2:
-			if_fname = if_command[1]
-			with open(if_fname) as seq_file:
-				for line in seq_file:
-					sst = line.rstrip('\n')
-					if sst[0] == ">":
-						if_seqs.append([sst, ""])
-					else:
-						if_seqs[-1][1] += sst
-			if len(if_seqs) == 0:
-				print "#### ERROR: No valid input was found in input directory"
-				print "Please check input files"
-				sys.exit()
-				return -1
-			else:
-				return if_seqs
+        else:
+            print "#### Sequence input completed"
+            return if_seqs
 
-def input_indices():
+    elif if_direc == True:
+        if_fnames = os.listdir(if_input)
+        if_fnames.remove('.DS_Store')
+        if len(if_fnames) == 0:
+            print "#### ERROR: No sequence file was found in given directory"
+            sys.exit()
+            return -1
+        else:
+            for if_1 in range(len(if_fnames)):
+                with open(if_input+"/"+if_fnames[if_1]) as seq_file:
+                    for line in seq_file:
+                        sst = line.rstrip('\n')
+                        if sst[0] == ">":
+                            if_seqs.append([sst, ""])
+                        else:
+                            if_seqs[-1][1] += sst
+            if len(if_seqs) == 0:
+                print "#### ERROR: No valid input was found in input directory"
+                print "Please check input files"
+                sys.exit()
+                return -1
+            else:
+                print "#### Sequence input completed"
+                return if_seqs
+
+    elif if_manual == True:
+        if_sub = [">Manual_seq_input", if_input.upper()]
+        if_seqs.append(if_sub)
+        print "#### Manual sequence input completed"
+        return if_seqs
+
+    else:
+        print "#### ERROR: Sequence input failed"
+        print "#### Please provide valid input option"
+        sys.exit()
+        return -1
+
+def input_indices(ii_path):
     ind_label = []
     ind_list = []
-    with open("preset_indices/index_reselect.txt") as ind_file:
+    with open(ii_path+"/preset_indices/index_reselect.txt") as ind_file:
         for line in ind_file:
             ssl = line.rstrip('\n').split()
             ind_label.append(ssl[0])
             ind_list.append([float(i) for i in ssl[1:]])
     return ind_label, ind_list
 
-def input_escape():
+def input_escape(ie_path):
     escape_label = ['dGN', 'ddGN', 'dHapN', 'ddHapN', 'dHpN', 'ddHpN', 'TdSN', 'dTdSN', 'dGD', 'ddGD', 'dHapD', 'ddHapD', 'dHpD', 'ddHpD', 'TdSD', 'dTdSD']
     escape_raw = []
-    with open("preset_indices/eScape_sorted_filled.csv") as ind_file:
+    with open(ie_path+"/preset_indices/eScape_sorted_filled.csv") as ind_file:
     	for line in ind_file:
     		ssl = line.rstrip('\n').split()
     		escape_raw.append([float(i) for i in ssl[1:17]])
     return escape_label, numpy.transpose(escape_raw)
 
-def preset_clf_import():
+def preset_clf_import(pci_path):
     pci_param_order = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17"]
     pcx_list = []
     for pcx_1 in range(5):
@@ -90,11 +94,11 @@ def preset_clf_import():
         for pcx_2 in range(19):
             #print pcx_1, pcx_2
             if pcx_2 == 0:
-                pci_clf = pickle.load(open("preset_params/class_"+str(pcx_1)+"/metaparam_"+str(pcx_1)+".txt"))
+                pci_clf = pickle.load(open(pci_path+"/preset_params/class_"+str(pcx_1)+"/metaparam_"+str(pcx_1)+".txt"))
                 pcx_sub.append(pci_clf)
                 #print str("preset_params/class_"+str(pcx_1)+"/metaparam_"+str(pcx_1)+".txt")
             else:
-                pci_clf = pickle.load(open("preset_params/class_"+str(pcx_1)+"/param_"+str(pcx_1)+"_"+ pci_param_order[pcx_2-1]+".txt"))
+                pci_clf = pickle.load(open(pci_path+"/preset_params/class_"+str(pcx_1)+"/param_"+str(pcx_1)+"_"+ pci_param_order[pcx_2-1]+".txt"))
                 pcx_sub.append(pci_clf)
                 #print str("preset_params/class_"+str(pcx_1)+"/param_"+str(pcx_1)+"_"+ pci_param_order[pcx_2-1]+".txt")
         pcx_list.append(pcx_sub)
@@ -102,6 +106,11 @@ def preset_clf_import():
                 
 
 def output_formatter(of_file, of_res, of_number, of_st, of_ed):
+    try:
+        os.stat("result_output")
+    except:
+        os.mkdir("result_output")
+    
 	of_outfname = "result_output/phosforus_output_"+"00000"[0:(6-len(str(of_number)))]+str(of_number)+".txt"
 	of_outfile = open(of_outfname, 'w')
 
