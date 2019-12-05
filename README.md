@@ -74,3 +74,21 @@ Input sequence label (as in fasta file or manual input tag)
    - Phosphorylation status (PHOSPHO / NONPHOS)
    - PHOSforUS prediction score
    - Converted phosphorylation probability
+
+## 6. Alternative usage example: command line script (phosforus_cmd.py)
+
+### Option #1: python phosforus_cmd.py [filename]
+
+If no other arguments other than input file name is given, PHOSforUS automatically targets for that file and predicts phosphorylation site.
+
+### Option #2: python phosforus_cmd.py [dirname] -d
+
+If -d flag is given, PHOSforUS will take all files in the given directory as sequence inputs. 
+
+### Option #3: python phosforus_cmd.py ["manual sequence input"] -m
+
+If -m flag is given, PHOSforUS will take given sequence argument as a sequence input and proceed on prediction. 
+
+### Optional argument: -v (verbose option)
+
+If -v flag is given, it will print prediction results on command line.

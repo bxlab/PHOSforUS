@@ -32,7 +32,8 @@ def input_fileset(if_input, if_file, if_direc, if_manual):
 
     elif if_direc == True:
         if_fnames = os.listdir(if_input)
-        if_fnames.remove('.DS_Store')
+        if '.DS_Store' in if_fnames:
+            if_fnames.remove('.DS_Store')
         if len(if_fnames) == 0:
             print "#### ERROR: No sequence file was found in given directory"
             sys.exit()
