@@ -4,7 +4,7 @@ from distutils.core import setup
 
 #### Descriptions
 
-setup(name= "PHOSforUS", version = '1.0', 
+setup(name= "PHOSforUS", version = '1.0.3', 
 description = "PHOSforUS horizontal information-based phosphorylation site predictor", 
 url = "https://github.com/bxlab/PHOSforUS", 
 author = "Min Hyung Cho", author_email = "mcho22@jhu.edu", license = "MIT", 
