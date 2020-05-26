@@ -92,3 +92,8 @@ If -m flag is given, PHOSforUS will take given sequence argument as a sequence i
 ### Optional argument: -v (verbose option)
 
 If -v flag is given, it will print prediction results on command line.
+
+## 7. Reproducibility-associated data
+
+All accessory datasets & figure generation-associated scripts are stored in a separate repository.
+https://github.com/mcho22/PHOSforUS_figure_resource
